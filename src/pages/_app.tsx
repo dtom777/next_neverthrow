@@ -1,6 +1,26 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
+import '../styles/globals.css';
+import { MantineProvider } from '@mantine/core';
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+import { Notification } from '@/components/Notification';
+
+import type { AppProps } from 'next/app';
+
+function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <>
+      <MantineProvider
+        withGlobalStyles
+        withNormalizeCSS
+        theme={{
+          colorScheme: 'dark',
+          fontFamily: 'Verdana, sans-serif',
+        }}
+      >
+        <Notification />
+        <Component {...pageProps} />
+      </MantineProvider>
+    </>
+  );
 }
+
+export default MyApp;
