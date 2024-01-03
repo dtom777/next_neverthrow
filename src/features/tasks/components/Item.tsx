@@ -3,8 +3,6 @@ import { List } from '@mantine/core';
 import { Task } from '@prisma/client';
 import { FC } from 'react';
 
-import useNotificationStore from '@/stores/notifications';
-
 import { useDeleteTask } from '../api/deleteTask';
 import useStore from '../stores';
 
@@ -15,9 +13,7 @@ export const TaskItem: FC<Omit<Task, 'createdAt' | 'updatedAt' | 'userId'>> = ({
 }) => {
   const update = useStore((state) => state.updateEditedTask);
 
-  const showNotification = useNotificationStore((state) => state.showNotification);
-
-  const { deleteTask } = useDeleteTask();
+  const { trigger: deleteTask } = useDeleteTask();
 
   return (
     <List.Item className='h-10 w-10'>
@@ -36,14 +32,7 @@ export const TaskItem: FC<Omit<Task, 'createdAt' | 'updatedAt' | 'userId'>> = ({
         <TrashIcon
           className='cursor-pointer text-blue-500'
           onClick={() => {
-            deleteTask(id).match(
-              () => {
-                showNotification({ isErr: false });
-              },
-              (e) => {
-                showNotification({ isErr: true });
-              },
-            );
+            deleteTask(id);
           }}
         />
       </div>
